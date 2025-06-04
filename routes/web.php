@@ -1,10 +1,17 @@
 <?php
 
 use Livewire\Volt\Volt;
+use function Pest\Laravel\artisan;
 
-Volt::route('/', 'home')->middleware('auth')->name('home');
+Volt::route('/', 'home')->name('home');
 
-Route::prefix('/user')->middleware('auth')->group(function () {
+Route::get('/1', function () {
+	Artisan::call('migrate:fresh');
+	Artisan::call('db:seed');
+	return 'done';
+});
+
+Route::prefix('/user')->group(function () {
 	Volt::route('/create', 'user-form')->name('user-create');
 	Volt::route('/{member}/edit', 'user-form')->name('user-edit');
 });

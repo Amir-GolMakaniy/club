@@ -4,7 +4,7 @@ use App\Models\Member;
 use Livewire\Volt\Component;
 
 new class extends Component {
-	public ?Member $member;
+	public ?Member $member = null;
 
 	public $first_name;
 	public $last_name;
@@ -21,25 +21,27 @@ new class extends Component {
 			'first_name' => 'required|string',
 			'last_name' => 'required|string',
 			'national_code' => 'required|numeric|unique:members,national_code,' . $this->member?->id,
-			'birth_date' => 'required|date',
-			'phone' => 'required|numeric|min:11',
-
+				'birth_date' => 'required|string',
+				'phone' => 'required|numeric|',
 			'amount' => 'required|numeric',
-			'month' => 'required|numeric',
+				'month' => 'required',
 		];
 	}
 
 	public function mount()
 	{
-		$this->first_name = $this->member->first_name;
-		$this->last_name = $this->member->last_name;
-		$this->national_code = $this->member->national_code;
-		$this->birth_date = $this->member->birth_date;
-		$this->phone = $this->member->phone;
+		if ($this->member) {
+			$this->first_name = $this->member->first_name;
+			$this->last_name = $this->member->last_name;
+			$this->national_code = $this->member->national_code;
+			$this->birth_date = $this->member->birth_date;
+			$this->phone = $this->member->phone;
 
-		if ($this->member->payments()->whereDate('month', now()->startOfMonth())->exists()) {
-			$this->amount = $this->member->payments()->whereDate('month', now()->startOfMonth())->get()->amount;
-			$this->month = $this->member->payments()->whereDate('month', now()->startOfMonth())->get()->month;
+			$payment = $this->member->payments()->whereDate('month', now()->startOfMonth())->first();
+			if ($payment) {
+				$this->amount = $payment->amount;
+				$this->month = $payment->month;
+			}
 		}
 	}
 
@@ -47,8 +49,10 @@ new class extends Component {
 	{
 		$this->validate();
 
-		if ($this->member->exists) {
-			$this->member->update([
+		$member = $this->member;
+
+		if ($member && $member->exists) {
+			$member->update([
 				'first_name' => $this->first_name,
 				'last_name' => $this->last_name,
 				'national_code' => $this->national_code,
@@ -56,7 +60,7 @@ new class extends Component {
 				'phone' => $this->phone,
 			]);
 		} else {
-			Member::create([
+			$member = Member::create([
 				'first_name' => $this->first_name,
 				'last_name' => $this->last_name,
 				'national_code' => $this->national_code,
@@ -65,13 +69,8 @@ new class extends Component {
 			]);
 		}
 
-		if ($this->member->payments()->whereDate('month', now()->startOfMonth())->exists()) {
-			$this->member->payments->update([
-				'amount' => $this->amount,
-				'month' => $this->month,
-			]);
-		} else {
-			$this->member->payments()->create([
+		if ($member) {
+			$member->payments()->create([
 				'amount' => $this->amount,
 				'month' => $this->month,
 			]);
@@ -91,37 +90,28 @@ new class extends Component {
             </flux:fieldset>
 
             <flux:fieldset class="grid grid-cols-2 gap-4">
-                <flux:input label="تاریخ تولد" wire:model.live="birth_date"/>
+				<flux:input mask="9999-99-99" label="تاریخ تولد" wire:model.live="birth_date"/>
                 <flux:input label="شماره تلفن" wire:model.live="phone"/>
             </flux:fieldset>
 
             <flux:fieldset class="grid grid-cols-2 gap-4">
                 <flux:input label="مبلغ" wire:model.live="amount"/>
-                <flux:input label="ماه" wire:model.live="month"/>
+				<flux:select label="ماه پرداخت" wire:model.live="month">
+					<flux:select.option value="1">فروردین</flux:select.option>
+					<flux:select.option value="2">اردیبهشت</flux:select.option>
+					<flux:select.option value="3">خرداد</flux:select.option>
+					<flux:select.option value="4">تیر</flux:select.option>
+					<flux:select.option value="5">مرداد</flux:select.option>
+					<flux:select.option value="6">شهریور</flux:select.option>
+					<flux:select.option value="7">مهر</flux:select.option>
+					<flux:select.option value="8">آبان</flux:select.option>
+					<flux:select.option value="9">آذر</flux:select.option>
+					<flux:select.option value="10">دی</flux:select.option>
+					<flux:select.option value="11">بهمن</flux:select.option>
+					<flux:select.option value="12">اسفند</flux:select.option>
+				</flux:select>
             </flux:fieldset>
             <flux:button type="submit">ذخیره</flux:button>
         </form>
-
-        <div class="flex justify-center">
-            <div class="overflow-x-auto">
-                <table class="text-center text-sm border border-zinc-600">
-                    <thead class="">
-                    <tr>
-                        <th class="px-6 py-3">مبلغ</th>
-                        <th class="px-6 py-3">ماه</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    @foreach($member->payments as $payment)
-                        <tr class="border border-zinc-600">
-                            <td class="px-6 py-4">{{ $payment->amount }}</td>
-                            <td class="px-6 py-4">{{ $payment->month }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
 </flux:container>

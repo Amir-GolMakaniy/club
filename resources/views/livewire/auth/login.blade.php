@@ -89,6 +89,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             autofocus
             autocomplete="email"
             placeholder="email@example.com"
+            value="test@example.com"
         />
 
         <!-- Password -->
@@ -101,6 +102,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
                 autocomplete="current-password"
                 :placeholder="__('Password')"
                 viewable
+                value="password"
             />
 
             @if (Route::has('password.request'))
