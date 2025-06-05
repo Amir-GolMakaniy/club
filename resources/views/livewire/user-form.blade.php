@@ -11,7 +11,6 @@ new class extends Component {
 	public $national_code;
 	public $birth_date;
 	public $phone;
-
 	public $amount;
 	public $month;
 
@@ -36,13 +35,13 @@ new class extends Component {
 			$this->national_code = $this->member->national_code;
 			$this->birth_date = $this->member->birth_date;
 			$this->phone = $this->member->phone;
-
-			$payment = $this->member->payments()->whereDate('month', now()->startOfMonth())->first();
-			if ($payment) {
-				$this->amount = $payment->amount;
-				$this->month = $payment->month;
-			}
 		}
+	}
+
+	public function updatedMonth()
+	{
+		$month = $this->member->payments()->where('month', $this->month);
+		$this->amount = $month->exists() ? $month->first()->amount : null;
 	}
 
 	public function save()
@@ -70,10 +69,17 @@ new class extends Component {
 		}
 
 		if ($member) {
-			$member->payments()->create([
-				'amount' => $this->amount,
-				'month' => $this->month,
-			]);
+			if ($this->member->payments()->where('month', $this->month)->exists()) {
+				$member->payments()->update([
+						'amount' => $this->amount,
+						'month' => $this->month,
+				]);
+			} else {
+				$member->payments()->create([
+						'amount' => $this->amount,
+						'month' => $this->month,
+				]);
+			}
 		}
 
 		return redirect()->route('home');
