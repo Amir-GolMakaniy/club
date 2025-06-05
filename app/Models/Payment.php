@@ -14,7 +14,7 @@ class Payment extends Model
 	protected $fillable = [
 		'member_id',
 		'amount',
-		'month',
+		'date',
 	];
 
 	public function member(): \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -20,7 +20,7 @@ class PaymentFactory extends Factory
 		return [
 			'member_id' => Member::factory(),
 			'amount' => $this->faker->randomFloat(2, 0, 1000),
-			'month' => $this->faker->month(),
+			'date' => $this->faker->date(),
 		];
 	}
 }

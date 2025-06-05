@@ -14,7 +14,7 @@ return new class extends Migration {
 			$table->id();
 			$table->foreignId('member_id')->constrained('members')->onDelete('cascade');
 			$table->integer('amount');
-			$table->date('month');
+			$table->date('date');
 			$table->timestamps();
 		});
 	}

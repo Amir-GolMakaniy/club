@@ -2,6 +2,7 @@
 
 use App\Models\Member;
 use Livewire\Volt\Component;
+use Morilog\Jalali\Jalalian;
 
 new class extends Component {
 	public ?Member $member = null;
@@ -12,7 +13,7 @@ new class extends Component {
 	public $birth_date;
 	public $phone;
 	public $amount;
-	public $month;
+	public $date;
 
 	public function rules()
 	{
@@ -23,7 +24,7 @@ new class extends Component {
 				'birth_date' => 'required|string',
 				'phone' => 'required|numeric|',
 			'amount' => 'required|numeric',
-				'month' => 'required',
+				'date' => 'required',
 		];
 	}
 
@@ -35,13 +36,18 @@ new class extends Component {
 			$this->national_code = $this->member->national_code;
 			$this->birth_date = $this->member->birth_date;
 			$this->phone = $this->member->phone;
+
+			$this->date = Jalalian::now()->format('Y-m-01');
+			$this->updatedDate();
 		}
 	}
 
-	public function updatedMonth()
+	public function updatedDate()
 	{
-		$month = $this->member->payments()->where('month', $this->month);
-		$this->amount = $month->exists() ? $month->first()->amount : null;
+		if ($this->member) {
+			$payment = $this->member->payments()->where('date', $this->date)->first();
+			$this->amount = $payment?->amount;
+		}
 	}
 
 	public function save()
@@ -69,15 +75,16 @@ new class extends Component {
 		}
 
 		if ($member) {
-			if ($this->member->payments()->where('month', $this->month)->exists()) {
-				$member->payments()->update([
+			$payment = $member->payments()->where('date', $this->date)->first();
+
+			if ($payment) {
+				$payment->update([
 						'amount' => $this->amount,
-						'month' => $this->month,
 				]);
 			} else {
 				$member->payments()->create([
 						'amount' => $this->amount,
-						'month' => $this->month,
+						'date' => $this->date,
 				]);
 			}
 		}
@@ -102,19 +109,43 @@ new class extends Component {
 
             <flux:fieldset class="grid grid-cols-2 gap-4">
                 <flux:input label="مبلغ" wire:model.live="amount"/>
-				<flux:select label="ماه پرداخت" wire:model.live="month">
-					<flux:select.option value="1">فروردین</flux:select.option>
-					<flux:select.option value="2">اردیبهشت</flux:select.option>
-					<flux:select.option value="3">خرداد</flux:select.option>
-					<flux:select.option value="4">تیر</flux:select.option>
-					<flux:select.option value="5">مرداد</flux:select.option>
-					<flux:select.option value="6">شهریور</flux:select.option>
-					<flux:select.option value="7">مهر</flux:select.option>
-					<flux:select.option value="8">آبان</flux:select.option>
-					<flux:select.option value="9">آذر</flux:select.option>
-					<flux:select.option value="10">دی</flux:select.option>
-					<flux:select.option value="11">بهمن</flux:select.option>
-					<flux:select.option value="12">اسفند</flux:select.option>
+				<flux:select label="ماه پرداخت" wire:model.live="date">
+					<flux:select.option selected value="{{ New Jalalian(Jalalian::now()->getYear(),'01','01') }}">
+						فروردین
+					</flux:select.option>
+					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'02','01') }}">
+						اردیبهشت
+					</flux:select.option>
+					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'03','01') }}">
+						خرداد
+					</flux:select.option>
+					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'04','01') }}">
+						تیر
+					</flux:select.option>
+					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'05','01') }}">
+						مرداد
+					</flux:select.option>
+					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'06','01') }}">
+						شهریور
+					</flux:select.option>
+					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'07','01') }}">
+						مهر
+					</flux:select.option>
+					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'08','01') }}">
+						آبان
+					</flux:select.option>
+					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'09','01') }}">
+						آذر
+					</flux:select.option>
+					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'10','01') }}">
+						دی
+					</flux:select.option>
+					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'11','01') }}">
+						بهمن
+					</flux:select.option>
+					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'12','01') }}">
+						اسفند
+					</flux:select.option>
 				</flux:select>
             </flux:fieldset>
             <flux:button type="submit">ذخیره</flux:button>
