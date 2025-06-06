@@ -94,61 +94,59 @@ new class extends Component {
 }; ?>
 
 <flux:container>
-    <div clss="flex justify-center">
-        <form wire:submit="save()">
-            <flux:fieldset class="grid grid-cols-3 gap-4">
-                <flux:input label="نام" wire:model.live="first_name"/>
-                <flux:input label="نام خانوادگی" wire:model.live="last_name"/>
-                <flux:input label="کد ملی" wire:model.live="national_code"/>
-            </flux:fieldset>
+	<form wire:submit="save()">
+		<flux:fieldset class="grid md:grid-cols-3 md:gap-4 mb-6">
+			<flux:input label="نام" wire:model.live="first_name"/>
+			<flux:input label="نام خانوادگی" wire:model.live="last_name"/>
+			<flux:input label="کد ملی" wire:model.live="national_code"/>
+		</flux:fieldset>
 
-            <flux:fieldset class="grid grid-cols-2 gap-4">
-				<flux:input mask="9999-99-99" label="تاریخ تولد" wire:model.live="birth_date"/>
-                <flux:input label="شماره تلفن" wire:model.live="phone"/>
-            </flux:fieldset>
+		<flux:fieldset class="grid md:grid-cols-2 md:gap-4 mb-6">
+			<flux:input mask="9999-99-99" label="تاریخ تولد" wire:model.live="birth_date"/>
+			<flux:input label="شماره تلفن" wire:model.live="phone"/>
+		</flux:fieldset>
 
-            <flux:fieldset class="grid grid-cols-2 gap-4">
-                <flux:input label="مبلغ" wire:model.live="amount"/>
-				<flux:select label="ماه پرداخت" wire:model.live="date">
-					<flux:select.option selected value="{{ New Jalalian(Jalalian::now()->getYear(),'01','01') }}">
-						فروردین
-					</flux:select.option>
-					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'02','01') }}">
-						اردیبهشت
-					</flux:select.option>
-					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'03','01') }}">
-						خرداد
-					</flux:select.option>
-					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'04','01') }}">
-						تیر
-					</flux:select.option>
-					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'05','01') }}">
-						مرداد
-					</flux:select.option>
-					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'06','01') }}">
-						شهریور
-					</flux:select.option>
-					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'07','01') }}">
-						مهر
-					</flux:select.option>
-					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'08','01') }}">
-						آبان
-					</flux:select.option>
-					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'09','01') }}">
-						آذر
-					</flux:select.option>
-					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'10','01') }}">
-						دی
-					</flux:select.option>
-					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'11','01') }}">
-						بهمن
-					</flux:select.option>
-					<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'12','01') }}">
-						اسفند
-					</flux:select.option>
-				</flux:select>
-            </flux:fieldset>
-            <flux:button type="submit">ذخیره</flux:button>
-        </form>
-    </div>
+		<flux:fieldset class="grid md:grid-cols-2 md:gap-4 mb-6">
+			<flux:input label="مبلغ" wire:model.live="amount"/>
+			<flux:select label="ماه پرداخت" wire:model.live="date">
+				<flux:select.option selected value="{{ New Jalalian(Jalalian::now()->getYear(),'01','01') }}">
+					فروردین
+				</flux:select.option>
+				<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'02','01') }}">
+					اردیبهشت
+				</flux:select.option>
+				<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'03','01') }}">
+					خرداد
+				</flux:select.option>
+				<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'04','01') }}">
+					تیر
+				</flux:select.option>
+				<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'05','01') }}">
+					مرداد
+				</flux:select.option>
+				<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'06','01') }}">
+					شهریور
+				</flux:select.option>
+				<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'07','01') }}">
+					مهر
+				</flux:select.option>
+				<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'08','01') }}">
+					آبان
+				</flux:select.option>
+				<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'09','01') }}">
+					آذر
+				</flux:select.option>
+				<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'10','01') }}">
+					دی
+				</flux:select.option>
+				<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'11','01') }}">
+					بهمن
+				</flux:select.option>
+				<flux:select.option value="{{ New Jalalian(Jalalian::now()->getYear(),'12','01') }}">
+					اسفند
+				</flux:select.option>
+			</flux:select>
+		</flux:fieldset>
+		<flux:button type="submit">ذخیره</flux:button>
+	</form>
 </flux:container>

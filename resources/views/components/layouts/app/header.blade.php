@@ -1,36 +1,18 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="rtl" class="dark">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    <title>{{ $title ?? config('app.name') }}</title>
-
-    <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet"/>
-
-    <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
-    <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
-
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @fluxAppearance
+    @include('partials.head')
 </head>
 <body class="min-h-screen bg-white dark:bg-zinc-800">
 <flux:header container class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
-    <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left"/>
+    <flux:sidebar.toggle class="md:hidden" icon="bars-2" inset="left"/>
 
     <a href="{{ route('home') }}" class="ms-2 me-5 flex items-center space-x-2 rtl:space-x-reverse lg:ms-0"
        wire:navigate>
         <x-app-logo/>
     </a>
 
-    <flux:navbar class="-mb-px max-lg:hidden">
+    <flux:navbar class="-mb-px hidden md:flex">
         <flux:navbar.item icon="home" :href="route('home')" :current="request()->is('/')" wire:navigate>
             خانه
         </flux:navbar.item>
@@ -112,7 +94,7 @@
 <!-- Mobile Menu -->
 <flux:sidebar stashable sticky
               class="lg:hidden border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
-    <flux:sidebar.toggle class="lg:hidden" icon="x-mark"/>
+    <flux:sidebar.toggle class="md:hidden" icon="x-mark"/>
 
     <a href="{{ route('dashboard') }}" class="ms-1 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
         <x-app-logo/>
