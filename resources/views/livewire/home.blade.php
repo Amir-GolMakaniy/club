@@ -38,12 +38,43 @@ new class extends Component {
                         <td class="px-6 py-4">{{ $member->birth_date }}</td>
                         <td class="px-6 py-4">{{ $member->phone }}</td>
                         <td class="px-6 py-4">
-                            <flux:link href="{{ route('user-edit',$member->id) }}">
-                                <flux:icon.pencil/>
-                            </flux:link>
+                            <flux:button href="{{ route('user-edit',$member->id) }}" variant="ghost">
+                                ویرایش
+                            </flux:button>
                         </td>
                         <td class="px-6 py-4">
-                            <flux:icon.user-minus class="cursor-pointer" wire:click="delete({{ $member->id }})"/>
+                            <flux:modal.trigger name="{{ $member->id }}">
+                                <flux:button variant="danger" class="cursor-pointer">
+                                    حذف
+                                </flux:button>
+                            </flux:modal.trigger>
+
+                            <flux:modal name="{{ $member->id }}" class="min-w-[22rem]">
+                                <div class="space-y-6">
+                                    <div>
+                                        <flux:heading size="lg">می خواهید حذف بشود؟</flux:heading>
+
+                                        <flux:text class="mt-2">
+                                            <p>به طور کامل حذف می شود</p>
+                                        </flux:text>
+                                    </div>
+
+                                    <div class="flex gap-2">
+                                        <flux:spacer/>
+
+                                        <flux:modal.close>
+                                            <flux:button variant="ghost" class="cursor-pointer">لغو</flux:button>
+                                        </flux:modal.close>
+
+                                        <flux:modal.close>
+                                            <flux:button variant="danger" class="cursor-pointer"
+                                                         wire:click="delete({{ $member->id }})">
+                                                حذف
+                                            </flux:button>
+                                        </flux:modal.close>
+                                    </div>
+                                </div>
+                            </flux:modal>
                         </td>
                     </tr>
                 @endforeach

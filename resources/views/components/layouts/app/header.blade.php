@@ -31,10 +31,11 @@
     </a>
 
     <flux:navbar class="-mb-px max-lg:hidden">
-        <flux:navbar.item icon="home" :href="route('home')" wire:navigate>
+        <flux:navbar.item icon="home" :href="route('home')" :current="request()->is('/')" wire:navigate>
             خانه
         </flux:navbar.item>
-        <flux:navbar.item icon="user-plus" :href="route('user-create')" wire:navigate>
+        <flux:navbar.item icon="user-plus" :href="route('user-create')" :current="request()->is('user/create')"
+                          wire:navigate>
             ساخت یوزر
         </flux:navbar.item>
     </flux:navbar>
@@ -42,12 +43,16 @@
     <flux:spacer/>
 
     <flux:navbar class="me-1.5 space-x-0.5 rtl:space-x-reverse py-0!">
-        <flux:tooltip content="جستجو" position="bottom" class="hidden lg:flex">
-            <flux:navbar.item class="!h-10 [&>div>svg]:size-5" icon="magnifying-glass" href="#"/>
+        <flux:tooltip content="جستجو" position="bottom" class="">
+            <livewire:search/>
         </flux:tooltip>
+
 
         <flux:tooltip content="تعییر تم" position="bottom">
             <flux:button x-data x-on:click="$flux.dark = ! $flux.dark" variant="subtle">
+                <template x-if="$flux.appearance == 'system'">
+                    <flux:icon.computer-desktop/>
+                </template>
                 <template x-if="$flux.appearance == 'light'">
                     <flux:icon.sun/>
                 </template>
@@ -117,7 +122,7 @@
         <flux:navlist.item icon="home" :href="route('home')" :current="request()->routeIs('dashboard')"
                            wire:navigate.hover>
             خانه
-            </flux:navlist.item>
+        </flux:navlist.item>
         <flux:navlist.item icon="user-plus" :href="route('user-create')" :current="request()->routeIs('dashboard')"
                            wire:navigate.hover>
             ساخت یوزر
