@@ -23,7 +23,7 @@ new class extends Component {
         <flux:navbar.item class="!h-10 [&>div>svg]:size-5" icon="magnifying-glass"/>
     </flux:modal.trigger>
 
-    <flux:modal name="search" class="w-full h-full md:w-96 md:h-50">
+    <flux:modal name="search" class="w-full h-full lg:w-96 lg:h-50">
         <flux:input icon="magnifying-glass" label="جستجو" placeholder="جستجو..." wire:model.live="search"/>
 
         @foreach($members as $member)

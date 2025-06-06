@@ -16,7 +16,7 @@ new class extends Component {
         <h1 class="pt-4 pb-8">اسم باشگاه شما</h1>
 
         {{-- Desktop Table --}}
-        <div class="hidden md:block overflow-x-auto">
+        <div class="hidden lg:block overflow-x-auto">
             <table class="text-center text-sm border border-zinc-600">
                 <thead>
                 <tr>
@@ -86,7 +86,7 @@ new class extends Component {
         </div>
 
         {{-- Mobile Table --}}
-        <div class="grid md:hidden gap-4">
+        <div class="grid lg:hidden gap-4">
             @foreach(Member::query()->orderByDesc('id')->get() as $member)
                 <div class="border border-zinc-600 rounded-xl p-4 space-y-2 text-sm">
                     <div><strong>نام:</strong> {{ $member->first_name }}</div>
