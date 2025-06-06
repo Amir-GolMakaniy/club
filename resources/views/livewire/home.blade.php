@@ -4,13 +4,6 @@ use App\Models\Member;
 use Livewire\Volt\Component;
 
 new class extends Component {
-	public $members;
-
-	public function mount()
-	{
-		$this->members = Member::query()->orderByDesc('id')->get();
-	}
-
 	public function delete(Member $member)
 	{
 		$member->delete();
@@ -38,7 +31,7 @@ new class extends Component {
                 </thead>
 
                 <tbody>
-                @foreach($members as $member)
+                @foreach(Member::query()->orderByDesc('id')->get() as $member)
                     <tr class="border border-zinc-600">
                         <td class="px-6 py-4">{{ $member->first_name }}</td>
                         <td class="px-6 py-4">{{ $member->last_name }}</td>
@@ -53,13 +46,13 @@ new class extends Component {
                         </td>
 
                         <td class="px-6 py-4">
-                            <flux:modal.trigger name="{{ $member->id }}">
+                            <flux:modal.trigger name="d{{ $member->id }}">
                                 <flux:button variant="danger" class="cursor-pointer">
                                     حذف
                                 </flux:button>
                             </flux:modal.trigger>
 
-                            <flux:modal name="{{ $member->id }}" class="min-w-[22rem]">
+                            <flux:modal name="d{{ $member->id }}" class="min-w-[22rem]">
                                 <div class="space-y-6">
                                     <div>
                                         <flux:heading size="lg">می خواهید حذف بشود؟</flux:heading>
@@ -94,7 +87,7 @@ new class extends Component {
 
         {{-- Mobile Table --}}
         <div class="grid md:hidden gap-4">
-            @foreach($members as $member)
+            @foreach(Member::query()->orderByDesc('id')->get() as $member)
                 <div class="border border-zinc-600 rounded-xl p-4 space-y-2 text-sm">
                     <div><strong>نام:</strong> {{ $member->first_name }}</div>
                     <div><strong>نام خانوادگی:</strong> {{ $member->last_name }}</div>
@@ -105,13 +98,13 @@ new class extends Component {
                     <div class="flex gap-2 justify-end pt-2">
                         <flux:button href="{{ route('user-edit', $member->id) }}" variant="ghost">ویرایش</flux:button>
 
-                        <flux:modal.trigger name="{{ $member->id }}">
+                        <flux:modal.trigger name="m{{ $member->id }}">
                             <flux:button variant="danger">
                                 حذف
                             </flux:button>
                         </flux:modal.trigger>
 
-                        <flux:modal name="{{ $member->id }}" class="min-w-[22rem]">
+                        <flux:modal name="m{{ $member->id }}" class="min-w-[22rem]">
                             <div class="space-y-6">
                                 <div>
                                     <flux:heading size="lg">می خواهید حذف بشود؟</flux:heading>
