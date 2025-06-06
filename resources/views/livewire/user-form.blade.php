@@ -95,18 +95,18 @@ new class extends Component {
 
 <flux:container>
 	<form wire:submit="save()">
-		<flux:fieldset class="grid md:grid-cols-3 md:gap-4 mb-6">
+		<flux:fieldset class="grid lg:grid-cols-3 lg:gap-4 mb-6">
 			<flux:input label="نام" wire:model.live="first_name"/>
 			<flux:input label="نام خانوادگی" wire:model.live="last_name"/>
 			<flux:input label="کد ملی" wire:model.live="national_code"/>
 		</flux:fieldset>
 
-		<flux:fieldset class="grid md:grid-cols-2 md:gap-4 mb-6">
+		<flux:fieldset class="grid lg:grid-cols-2 lg:gap-4 mb-6">
 			<flux:input mask="9999-99-99" label="تاریخ تولد" wire:model.live="birth_date"/>
 			<flux:input label="شماره تلفن" wire:model.live="phone"/>
 		</flux:fieldset>
 
-		<flux:fieldset class="grid md:grid-cols-2 md:gap-4 mb-6">
+		<flux:fieldset class="grid lg:grid-cols-2 lg:gap-4 mb-6">
 			<flux:input label="مبلغ" wire:model.live="amount"/>
 			<flux:select label="ماه پرداخت" wire:model.live="date">
 				<flux:select.option selected value="{{ New Jalalian(Jalalian::now()->getYear(),'01','01') }}">
